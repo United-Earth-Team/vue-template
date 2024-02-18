@@ -23,6 +23,7 @@
   },
   "lint-staged": {
     "*.{ts,jsx,tsx,vue}": [
+      "prettier --write",
       "eslint --fix",
       "eslint"
     ]
