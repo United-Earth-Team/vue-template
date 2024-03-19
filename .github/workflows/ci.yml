@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  Check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v3
+
+      - name: NPM Cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Read .nvmrc
+        run: echo "name=NVMRC::$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        id: nvm
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '${{ steps.nvm.outputs.NVMRC }}'
+
+      - name: Install libs
+        run: |
+          npm ci
+
+      - name: Run lint
+        run: |
+          npm run lint
+
+      - name: Run test
+        run: |
+          npm run test:unit
+
+      - name: Build
+        run: |
+          npm run build
