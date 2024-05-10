@@ -29,7 +29,7 @@
     ]
   },
   "dependencies": {
-    "@quasar/extras": "1.16.10",
+    "@quasar/extras": "1.16.11",
     "fp-ts": "2.16.4",
     "pinia": "2.1.7",
     "quasar": "2.15.1",
